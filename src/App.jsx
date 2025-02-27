@@ -4,12 +4,17 @@ import './App.css'
 function App() {
   const [inputValue, setInputValue] = useState('')
   const [subItems, setSubItems] = useState([])
+  const [notesLabel, setNotesLabel] = useState('')
 
   const handleAddItem = () => {
     if(inputValue.trim()) {
       setSubItems([...subItems, {value: inputValue, subItems: []}])
       setInputValue('')
     }
+  }
+
+  const handleSetNotesLabel = (e) => {
+    setNotesLabel(e.target.innerText)
   }
 
   const handleAddSubItem = (parentItem) => () => {
@@ -72,7 +77,7 @@ const renderSubItems = (subItems) => {
             {subItems.map((item, index) => (
               <div key={index}>
                <div className="p-1.5 m-0 flex justify-between items-center border-b-3 border-b-gray-100">
-                <div><span>{item.value}</span></div>
+                <div><a className="underline cursor-pointer" onClick={handleSetNotesLabel}>{item.value}</a></div>
                 <div><button className='p-2 rounded-full cursor-pointer bg-mint-400 transition duration-150 ease-in-out hover:bg-mint-500' onClick={handleAddSubItem(item)}>
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
@@ -88,6 +93,13 @@ const renderSubItems = (subItems) => {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+
+      <div className="shadow-lg border-1 border-gray-200 mt-5 pt-5 bg-neutral-100 p-4">
+         <h2>Notes</h2>
+        <label htmlFor="notes" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notes for {notesLabel}</label>
+        <textarea id="notes" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
+
+      </div>
     </>
   )
 }
